@@ -1,8 +1,8 @@
 /**
  * weather-i2c - get the data via i2c
  */
-I2C   = require( '../../../../library/nodejs/device/chip/gpio/i2c' );
-Utils = require( '../../../../library/nodejs/Utils' );
+I2C   = require( '../libs/node-lib/device/chip/gpio/i2c' );
+Utils = require( '../libs/node-lib/Utils' );
 Sleep = require('sleep');
 
 var GET_ADDRESS     = 0x61;

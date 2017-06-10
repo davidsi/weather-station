@@ -2,7 +2,7 @@ var querystring    = require( "querystring" ),
     fs             = require( "fs" ),
     url            = require( "url" ),
     formidable     = require( "formidable" ),
-    IKommunicate   = require( "../../../../library/nodejs/signalk/IKommunicate" ),
+    IKommunicate   = require( "../libs/node-lib/signalk/IKommunicate" ),
     WeatherI2c     = require( "./weather-i2c" );
 
 var nodeDesc = {

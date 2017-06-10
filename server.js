@@ -1,9 +1,9 @@
 /**
  * boat controller server master
  */
-var server                 = require( "../../../../library/nodejs/client-server/server" );
-var Router                 = require( "../../../../library/nodejs/client-server/router" );
-var IKommunicate           = require( "../../../../library/nodejs/signalk/IKommunicate" );
+var server                 = require( "../libs/node-lib/client-server/server" );
+var Router                 = require( "../libs/node-lib/client-server/router" );
+var IKommunicate           = require( "../libs/node-lib/signalk/IKommunicate" );
 var serverRequestHandlers  = require( "./WeatherRequestHandlers" );
 
 var router       = new Router();
