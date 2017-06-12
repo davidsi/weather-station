@@ -51,8 +51,12 @@ WeatherI2c.prototype.fetchWind = function() {
 	try {
 		this.i2cWindVane.read( null, 32, function( data ) {
 
-			if( data[2] != 45 || data[6] != 33 ) {
+			if( data === null || data === undefined ||  data[2] != 45 || data[6] != 33 ) {
+
 				console.log( "bad data from daughter board:  ["+data[2] + "], ["+data[6]+"]" );
+
+				this.windSpeed     = 0;
+				this.windDirection = 0;
 			}
 			else {
 
@@ -100,7 +104,10 @@ WeatherI2c.prototype.fetchTempHumidity = function() {
 
 			console.log( "data = " + data );
 
-			if( data === null ) {
+			that.temperature = 0;
+			that.humidity    = 0;
+
+			if( data === null || data === undefined ) {
 				that.tempError = "skipping temp/humidity due to error " ;
 				console.log( that.tempError );
 			}

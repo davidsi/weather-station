@@ -6,11 +6,14 @@ var querystring    = require( "querystring" ),
     WeatherI2c     = require( "./weather-i2c" );
 
 var nodeDesc = {
-    "nodeType"  : ["weather"],
-    "name"      : "weather station",
-    "hardware"  : "chip",
-    "battery"   : false,                                // if running off a battery
-    "id"        : 102,                                  // each entity has an ID, the name is known by the controller
+    "big-red-button-reciever" : false,
+    "SSID-config"             : false,                              // if we can change the SSID (bluetooth). This will, potentially, reboot the device
+    "nodeType"                : ["weather"],
+    "socket"                  : NetUtils.CommonPorts.DEVICE_HTTP
+    "name"                    : "weather station",
+    "hardware"                : "chip",
+    "battery"                 : false,                                // if running off a battery
+    "id"                      : 102,                                  // each entity has an ID, the name is known by the controller
     
     // of of these for each of the node types
     //
