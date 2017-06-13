@@ -2,7 +2,7 @@ var querystring    = require( "querystring" ),
     fs             = require( "fs" ),
     url            = require( "url" ),
     formidable     = require( "formidable" ),
-    IKommunicate   = require( "../libs/node-lib/signalk/IKommunicate" ),
+//    IKommunicate   = require( "../libs/node-lib/signalk/IKommunicate" ),
     WeatherI2c     = require( "./weather-i2c" );
 
 var nodeDesc = {
@@ -39,11 +39,11 @@ function query( ) {
 /**
  * query the device for it's data
  */
-function data( ik ) {
+function data( /*ik*/ ) {
     
     // need to find the iKommunicate
     //
-    this.iKommunicate = ik;
+    // this.iKommunicate = ik;
     this.weatherI2c   = new WeatherI2c.WeatherI2c();
     that              = this;
 
