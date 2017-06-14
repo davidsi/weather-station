@@ -43,7 +43,7 @@ function data( ik ) {
     // need to find the iKommunicate
     //
     this.iKommunicate = ik;
-    this.weatherI2c   = new WeatherI2c.WeatherI2c();
+    this.weatherI2c   = new WeatherI2c.WeatherI2c( this.iKommunicate );
     that              = this;
 
     // server response
@@ -63,20 +63,10 @@ function data( ik ) {
         if( that.weatherI2c.windError !== undefined ) {
             result["windError"] = that.weatherI2c.windError;
         } 
-        else if( that.iKommunicate.ipAddress === undefined ){
-            result["windError"] = "no signalK unit";
-        }
         else {
             // adjust the heading according to the real heading via iKommunicate
             //
-            var heading = that.weatherI2c.windDirection + that.iKommunicate.heading;
-
-            if( heading < 0 ) {
-                heading += 360;
-            }
-            else if( heading > 360 ) {
-                heading -= 360;
-            }
+            var heading = that.weatherI2c.windDirection;
 
             // now post the results
             //

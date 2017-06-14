@@ -18,18 +18,20 @@ iKommunicate.findIpAddress( function( ipAddress ) {
 /**
  * get the data via i2c from the daughter board
  */
-function WeatherI2c() {
+function WeatherI2c( ik ) {
 
-    this.i2cWindVane    = new I2C( { bus : 2, address : WIND_VANE_ADDR} );
-    this.i2cTempHumid   = new I2C( { bus : 2, address : TEMP_HUMID_ADDR} );
-    this.windSpeed      = 0;
-    this.windDirection  = 0;
-    this.temperature    = 0;
-    this.humidity       = 0;
-	this.tempError      = undefined;
-	this.windError      = undefined;
-	this.inWindCallback = false;
-	this.inTempCallback = false;
+    this.iKommunicate            = ik;
+    this.lastIKommunicateHeading = 0;
+    this.i2cWindVane             = new I2C( { bus : 2, address : WIND_VANE_ADDR} );
+    this.i2cTempHumid            = new I2C( { bus : 2, address : TEMP_HUMID_ADDR} );
+    this.windSpeed               = 0;
+    this.windDirection           = 0;
+    this.temperature             = 0;
+    this.humidity                = 0;
+	this.tempError               = undefined;
+	this.windError               = undefined;
+	this.inWindCallback          = false;
+	this.inTempCallback          = false;
 
 	this.fetchWind();
 	this.fetchTempHumidity();
@@ -64,8 +66,21 @@ WeatherI2c.prototype.fetchWind = function() {
 			}
 			else {
 
+        		if( this.iKommunicate.ipAddress !== undefined ) {
+        			// save the latest one we have 
+        			//
+        			this.lastIKommunicateHeading = this.iKommunicate.heading;
+				}
+
 				this.windSpeed     = Utils.buffToInt( data, 0, 2 );
-				this.windDirection = Utils.buffToInt( data, 3, 3 );
+				this.windDirection = Utils.buffToInt( data, 3, 3 ) + this.lastIKommunicateHeading;
+
+	            if( this.windDirection < 0 ) {
+	                this.windDirection += 360;
+	            }
+	            else if( this.windDirection > 360 ) {
+	                this.windDirection -= 360;
+	            }
 			}
 
 			this.inWindCallback = false;
