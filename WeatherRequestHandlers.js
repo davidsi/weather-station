@@ -8,7 +8,7 @@ var nodeDesc = {
     "big-red-button-reciever" : false,
     "SSID-config"             : false,                              // if we can change the SSID (bluetooth). This will, potentially, reboot the device
     "nodeType"                : ["weather"],
-    "socket"                  : NetUtils.CommonPorts.DEVICE_HTTP
+    "socket"                  : NetUtils.CommonPorts.DEVICE_HTTP,
     "name"                    : "weather station",
     "hardware"                : "chip",
     "battery"                 : false,                                // if running off a battery
