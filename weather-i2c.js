@@ -56,10 +56,14 @@ WeatherI2c.prototype.fetchWind = function() {
 
 			if( data === null || data === undefined ||  data[2] != 45 || data[6] != 33 ) {
 
-				console.log( "bad data from daughter board:  ["+data[2] + "], ["+data[6]+"]" );
-
-				this.windSpeed     = 0;
-				this.windDirection = 0;
+				if( data !== null && data !== undefined ) {
+					console.log( "bad data from daughter board:  ["+data[2] + "], ["+data[6]+"]" );
+				}
+				else {
+					console.log( "no data from daughter board" );
+				}
+				this.windSpeed     = -1;
+				this.windDirection = -1;
 			}
 			else {
 
