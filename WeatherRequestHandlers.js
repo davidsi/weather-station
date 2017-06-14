@@ -38,12 +38,11 @@ function query( ) {
 /**
  * query the device for it's data
  */
-function data( ik ) {
+function data() {
     
     // need to find the iKommunicate
     //
-    this.iKommunicate = ik;
-    this.weatherI2c   = new WeatherI2c.WeatherI2c( this.iKommunicate );
+    this.weatherI2c   = new WeatherI2c.WeatherI2c();
     that              = this;
 
     // server response

@@ -4,6 +4,7 @@
 var I2C          = require( '../libs/node-lib/device/chip/gpio/i2c' );
 var Utils        = require( '../libs/node-lib/Utils' );
 var Sleep        = require('sleep');
+var IKommunicate = require( "../libs/node-lib/signalk/IKommunicate" );
 
 var GET_ADDRESS     = 0x61;
 var SET_ADDRESS     = 0x41;
@@ -11,16 +12,12 @@ var WIND_VANE_ADDR	= 4;
 var TEMP_HUMID_ADDR = 0x5c;
 var AM2315_READREG  = 0x03;
 
-iKommunicate.findIpAddress( function( ipAddress ) {
-    console.log( "found iKommunicate at " + ipAddress );
-});
-
 /**
  * get the data via i2c from the daughter board
  */
 function WeatherI2c( ik ) {
 
-    this.iKommunicate            = ik;
+    this.iKommunicate            = new IKommunicate.IKommunicate();
     this.lastIKommunicateHeading = 0;
     this.i2cWindVane             = new I2C( { bus : 2, address : WIND_VANE_ADDR} );
     this.i2cTempHumid            = new I2C( { bus : 2, address : TEMP_HUMID_ADDR} );
