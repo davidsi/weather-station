@@ -1,15 +1,19 @@
 /**
  * weather-i2c - get the data via i2c
  */
-I2C   = require( '../libs/node-lib/device/chip/gpio/i2c' );
-Utils = require( '../libs/node-lib/Utils' );
-Sleep = require('sleep');
+var I2C          = require( '../libs/node-lib/device/chip/gpio/i2c' );
+var Utils        = require( '../libs/node-lib/Utils' );
+var Sleep        = require('sleep');
 
 var GET_ADDRESS     = 0x61;
 var SET_ADDRESS     = 0x41;
 var WIND_VANE_ADDR	= 4;
 var TEMP_HUMID_ADDR = 0x5c;
 var AM2315_READREG  = 0x03;
+
+iKommunicate.findIpAddress( function( ipAddress ) {
+    console.log( "found iKommunicate at " + ipAddress );
+});
 
 /**
  * get the data via i2c from the daughter board
@@ -139,7 +143,7 @@ WeatherI2c.prototype.fetchTempHumidity = function() {
 		}.bind(this));
 	}
 	catch( exp ) {
-		this.tempError = "error fetching temp: " + exp;
+		this.tempError      = "error fetching temp: " + exp;
 		this.inTempCallback = false;
 		console.log( this.tempError );
 	}
