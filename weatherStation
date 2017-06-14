@@ -1,0 +1,33 @@
+#! /bin/sh
+# /etc/init.d/test
+#
+# do not forget chmod +x /etc/init.d/weatherStation
+#
+### BEGIN INIT INFO
+# Provides:          test
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Example initscript
+# Description:       This file should be used to construct scripts to be placed in /etc/init.d
+### END INIT INFO
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+   start)
+    echo "starting weather station"
+    # run application you want to start
+    #node /home/chip/github/weather-station/server.js /home/chip/github/weather-station/station.log
+    /usr/local/bin/node /home/chip/github/weather-station/server.js >> /home/chip/github/weather-station/server.log
+    ;;
+  stop)
+    echo "stopping weather station"
+    killall -9 node
+    ;;
+  *)
+    echo "usage: /etc/init.d/weatherStation {start|stop}
+    exit 1
+    ;;
+esac
+exit 0

@@ -43,8 +43,8 @@ function data() {
     
     // need to find the iKommunicate
     //
-    this.weatherI2c   = new WeatherI2c.WeatherI2c();
-    that              = this;
+    this.weatherI2c = new WeatherI2c.WeatherI2c();
+    that            = this;
 
     // server response
     //
