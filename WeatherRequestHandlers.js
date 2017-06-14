@@ -2,6 +2,7 @@ var querystring    = require( "querystring" ),
     fs             = require( "fs" ),
     url            = require( "url" ),
     formidable     = require( "formidable" ),
+    NetUtils       = require( "../libs/node-lib/client-server/NetUtils" ),
     WeatherI2c     = require( "./weather-i2c" );
 
 var nodeDesc = {
