@@ -26,7 +26,7 @@ case "$1" in
     killall -9 node
     ;;
   *)
-    echo "usage: /etc/init.d/weatherStation {start|stop}
+    echo "usage: /etc/init.d/weatherStation {start|stop}"
     exit 1
     ;;
 esac
