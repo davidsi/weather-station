@@ -19,7 +19,7 @@ case "$1" in
     echo "starting weather station"
     # run application you want to start
     #node /home/chip/github/weather-station/server.js /home/chip/github/weather-station/station.log
-    /usr/local/bin/node /home/chip/github/weather-station/server.js >> /home/chip/github/weather-station/server.log
+    sudo /usr/local/bin/node /home/chip/github/weather-station/server.js >> /var/log/weather-station.log
     ;;
   stop)
     echo "stopping weather station"
