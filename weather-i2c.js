@@ -14,6 +14,7 @@ var AM2315_READREG  = 0x03;
 
 /**
  * get the data via i2c from the daughter board
+ * daughter board is : 
  */
 function WeatherI2c( ik ) {
 
@@ -95,13 +96,12 @@ WeatherI2c.prototype.fetchWind = function() {
 
 /**
  * get the temp/humidity
+ * probe is : AM2315 - Encased I2C Temperature/Humidity Sensor from adafruit
  */
 WeatherI2c.prototype.fetchTempHumidity = function() { 
 
 	this.inTempCallback = true;
 	this.tempError      = undefined;
-
-	var that = this;
 
 	try {
 		// this might throw an exception - in waking up the device
@@ -115,8 +115,10 @@ WeatherI2c.prototype.fetchTempHumidity = function() {
 	try {
 		// write to register, then wait a bit
 		//
-		that.i2cTempHumid.write( new Buffer( [AM2315_READREG, 0, 4]) );
+		this.i2cTempHumid.write( new Buffer( [AM2315_READREG, 0, 4]) );
 		Sleep.msleep( 10 );
+
+		var that = this;
 
 		// now get the data
 		//
