@@ -18,8 +18,8 @@ var nodeDesc = {
     // of of these for each of the node types
     //
     "weather" : {
-        "queryAvailable" : true,
-        "functions"      : ["wind-speed", "wind-direction", "rainfall"]
+        "queryAvailable"     : ["data"],
+        "functionsAvailable" : ["windSpeed", "windDirection", "windHeading"]                                // shows what THIS station is capable of. 
     }
 };
 
