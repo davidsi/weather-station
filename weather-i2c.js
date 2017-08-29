@@ -1,7 +1,6 @@
 /**
  * weather-i2c - get the data via i2c
  */
-var I2C          = require( '../libs/node-lib/device/chip/gpio/i2c' );
 var Utils        = require( '../libs/node-lib/Utils' );
 var Sleep        = require('sleep');
 var IKommunicate = require( "../libs/node-lib/signalk/IKommunicate" );
@@ -16,12 +15,17 @@ var AM2315_READREG  = 0x03;
  * get the data via i2c from the daughter board
  * daughter board is : 
  */
-function WeatherI2c( ik ) {
+function WeatherI2c( responseHandler ) {
+
+    this.i2cWindVane  = responseHandler.getI2Caddress( 2, WIND_VANE_ADDR );
+    this.i2cTempHumid = responseHandler.getI2Caddress( 2, TEMP_HUMID_ADDR );
+
+    if( this.i2cWindVane === undefined || this.i2cTempHumid === undefined ) {
+    	return undefined;
+    }
 
     this.iKommunicate            = new IKommunicate.IKommunicate();
     this.lastIKommunicateHeading = 0;
-    this.i2cWindVane             = new I2C( { bus : 2, address : WIND_VANE_ADDR} );
-    this.i2cTempHumid            = new I2C( { bus : 2, address : TEMP_HUMID_ADDR} );
     this.windSpeed               = 0;
     this.windDirection           = 0;
     this.temperature             = 0;

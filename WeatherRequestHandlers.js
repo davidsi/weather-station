@@ -1,49 +1,15 @@
-var querystring    = require( "querystring" ),
-    fs             = require( "fs" ),
-    url            = require( "url" ),
-    formidable     = require( "formidable" ),
-    NetUtils       = require( "../libs/node-lib/client-server/NetUtils" ),
-    WeatherI2c     = require( "./weather-i2c" );
-
-var nodeDesc = {
-    "big-red-button-reciever" : false,
-    "SSID-config"             : false,                              // if we can change the SSID (bluetooth). This will, potentially, reboot the device
-    "nodeType"                : ["weather"],
-    "socket"                  : NetUtils.CommonPorts.DEVICE_HTTP,
-    "name"                    : "weather station",
-    "hardware"                : "chip",
-    "battery"                 : false,                                // if running off a battery
-    "id"                      : 102,                                  // each entity has an ID, the name is known by the controller
-    
-    // of of these for each of the node types
-    //
-    "weather" : {
-        "queryAvailable"     : ["data"],
-        "functionsAvailable" : ["windSpeed", "windDirection", "windHeading"]                                // shows what THIS station is capable of. 
-    }
-};
-
-/**
- * query the device for it's capabilities
- */
-function query( ) {
-    
-    this.responder = function( response, request, params ) {
-
-        response.writeHead(200, {"Content-Type": "application/json", });
-        response.write(JSON.stringify(nodeDesc));
-        response.end(); 
-    }
-}
+var WeatherI2c = require( "./weather-i2c" );
 
 /**
  * query the device for it's data
  */
-function data() {
+function data( rh ) {
     
+    this.resourceHandler = rh;
+
     // need to find the iKommunicate
     //
-    this.weatherI2c = new WeatherI2c.WeatherI2c();
+    this.weatherI2c = new WeatherI2c.WeatherI2c( rh );
     that            = this;
 
     // server response
@@ -52,29 +18,34 @@ function data() {
 
         var result = new Object();
 
-        if( that.weatherI2c.tempError !== undefined ) {
-            result["tempError"] = that.weatherI2c.tempError;
+        if( weatherI2c === undefined ) {
+            result["error"] = "no i2c bus available";
         }
         else {
-            result["temperature"] = that.weatherI2c.temperature;
-            result["humidity"]    = that.weatherI2c.humidity;
-        }
+            if( that.weatherI2c.tempError !== undefined ) {
+                result["tempError"] = that.weatherI2c.tempError;
+            }
+            else {
+                result["temperature"] = that.weatherI2c.temperature;
+                result["humidity"]    = that.weatherI2c.humidity;
+            }
 
-        if( that.weatherI2c.windError !== undefined ) {
-            result["windError"] = that.weatherI2c.windError;
-        } 
-        else {
-            // adjust the heading according to the real heading via iKommunicate
-            //
-            var heading = that.weatherI2c.windDirection;
+            if( that.weatherI2c.windError !== undefined ) {
+                result["windError"] = that.weatherI2c.windError;
+            } 
+            else {
+                // adjust the heading according to the real heading via iKommunicate
+                //
+                var heading = that.weatherI2c.windDirection;
 
-            // now post the results
-            //
-            result["rain"]        = 0;
-            result["direction"]   = heading;
-            result["speed"]       = that.weatherI2c.windSpeed;
-            result["strength"]    = that.getWindStrength( that.weatherI2c.windSpeed );
-            result["heading"]     = that.getHeading( heading );
+                // now post the results
+                //
+                result["rain"]        = 0;
+                result["direction"]   = heading;
+                result["speed"]       = that.weatherI2c.windSpeed;
+                result["strength"]    = that.getWindStrength( that.weatherI2c.windSpeed );
+                result["heading"]     = that.getHeading( heading );
+            }
         }
 
         response.writeHead(200, {"Content-Type": "application/json", });
@@ -133,7 +104,5 @@ data.prototype.getWindStrength = function ( speed ) {
         return "RUN"; 
 }
 
-
-exports.query = query;
 exports.data  = data;
 
