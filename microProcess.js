@@ -8,7 +8,7 @@ var serverRequestHandlers  = require( "./WeatherRequestHandlers" );
  */
 function MicroProcess( router, resourceHandler ) {
 
-	var weatherServer = new weatherServer( resourceHandler );
+//	var weatherServer = new weatherServer( resourceHandler );
 
 	router.addRoute( "/data",  new serverRequestHandlers.data( resourceHandler ) );
 
