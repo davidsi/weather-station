@@ -1,9 +1,9 @@
 /**
  * weather-i2c - get the data via i2c
  */
-var Utils        = require( '../libs/node-lib/Utils' );
+var Utils        = require( '../node-lib/Utils' );
 var Sleep        = require('sleep');
-var IKommunicate = require( "../libs/node-lib/signalk/IKommunicate" );
+var IKommunicate = require( "../node-lib/signalk/IKommunicate" );
 
 var GET_ADDRESS     = 0x61;
 var SET_ADDRESS     = 0x41;
